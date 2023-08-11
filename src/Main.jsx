@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import "./Main.css";
 import data from "./levels.json";
+import { useNavigate } from "react-router-dom";
 import CircleComponent from "./CircleConmponent";
 import bunny from "./bugsBunny.png";
 import { MdOutlineRestartAlt } from "react-icons/md";
+import { AiFillYoutube, AiFillInstagram, AiFillFacebook } from "react-icons/ai";
 import { CiPlay1 } from "react-icons/ci";
+import { UserAuth } from "./AuthContext";
+import { doc, setDoc, collection, addDoc } from "firebase/firestore";
+import Home from "./Home";
+import { db } from "./firebase";
+import {  getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 
 const BLOCK_SIZE = 150;
 const PLAYER_SIZE = 50;
 const JUMP_HEIGHT = 200;
 const GRAVITY = 2;
-
-function App() {
+let i = 0;
+function Main() {
+  const { user, logout } = UserAuth();
+  const navigate = useNavigate();
   const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
   const [level, setLevel] = useState(0);
   const [language, setLanguage] = useState(0);
@@ -23,7 +32,69 @@ function App() {
     { x: 1200, y: 200, hit: false, isCorrect: false, option: "d" },
   ]);
   const [jumping, setJumping] = useState(false);
+  const [docId, setDocId] = useState('');
 
+  const handleRefresh = async () => {
+    // setNfts([]);
+    if (user.email) {
+      
+      const querySnapshot = await getDocs(collection(db, user.email));
+      console.log(querySnapshot.docs);
+      if(querySnapshot.docs.length===0){
+        try {
+          const docRef = await addDoc(collection(db, user.email), {
+            progress: level,
+          });
+    
+          console.log("Document written with ID: ", docRef.id);
+          // await addDoc(collection(doc(db, user.email)), {
+          //   slug: slug,
+          //   contractid: contract,
+          // });
+        } catch (error) {
+          console.log(error);
+        }
+      }else{
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            console.log(doc.data().progress);
+            setLevel(doc.data().progress);
+            setDocId(doc.id)
+          // tempnfts.push([doc.id, doc.data()]);
+          // console.log(tempnfts);
+        });
+      }
+      // console.log(querySnapshot.docs);
+      // setNfts(tempnfts);
+      // console.log(nfts);
+    } else {
+      console.log("no email");
+    }
+
+    // document.getElementById('ratata').innerHTML = "pancho";
+  };
+
+  useEffect(() => {
+    handleRefresh();
+  }, []);
+
+  const handleLevelUpdate = async (e) => {
+    // e.preventDefault();
+    console.log({ level });
+    try {
+      // Get the document reference
+      
+      const washingtonRef = doc(db, user.email, docId);
+      // Update the integer field
+      await updateDoc(washingtonRef, {
+        progress: level
+      });
+
+      console.log('Value updated successfully');
+    } catch (error) {
+      console.error('Error updating value:', error);
+    }
+  };
   const handleKeyPress = (e) => {
     if (e.key === "ArrowLeft") {
       setPlayerPos((prevPos) => ({ ...prevPos, x: prevPos.x - 10 }));
@@ -88,6 +159,8 @@ function App() {
           !block.hit
         ) {
           handleBlockCollision(index);
+          i++;
+          console.log(i);
         }
       });
     };
@@ -106,12 +179,19 @@ function App() {
   useEffect(() => {
     const correctIndex = data[level].Correct;
     const options = data[level].options;
+    const optionsh = data[level].optionsh;
+    const optionsp = data[level].optionsp;
     console.log(correctIndex);
-
+    i = 0;
     const updatedBlocks = blocks.map((block, index) => ({
       ...block,
       isCorrect: index === correctIndex ? true : false,
-      option: options[index],
+      option:
+        language === 0
+          ? options[index]
+          : language === 1
+          ? optionsh[index]
+          : optionsp[index],
       hit: false,
     }));
     setBlocks(updatedBlocks);
@@ -121,24 +201,39 @@ function App() {
     //   console.log(e);
 
     // })
-  }, [level]);
+    handleLevelUpdate();
+  }, [level, language]);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+      console.log("u r logged out");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
-      {level===0 && <div className="start__main">
-        <div className="start__logo">
-          <img src={bunny} alt="" />
-          BucksBunny
+      <div className="signout__button" onClick={handleLogout}>Sign Out</div>
+      {level === 0 && (
+        <div className="start__main">
+          <div className="start__logo">
+            <img src={bunny} alt="" />
+            BucksBunny
+          </div>
+          <div className="start__text">
+            Learn about financial management in a fun and interactive way
+          </div>
+          <div className="start__button">
+            <div className="button__container" onClick={() => setLevel(1)}>
+              <CiPlay1 className="start__icon" />
+            </div>
+          </div>
         </div>
-        <div className="start__text">
-          Learn about financial management in a fun and interactive way
-        </div>
-        <div className="start__button">
-          <div className="button__container" onClick={()=>setLevel(1)}>
-          <CiPlay1 className="start__icon" /></div>
-        </div>
-      </div>}
-      {level >= 1 && level < data.length-1 && (
+      )}
+      {level >= 1 && level < data.length - 1 && (
         <div className="App">
           <div className="main__logo">
             <img src={bunny} alt="" className="logo" />
@@ -153,7 +248,9 @@ function App() {
               >
                 English
               </div>
-              <p className="video__link">video</p>
+              <p className="video__link">
+                <Home videolink={"https://www.youtube.com/embed/3zZ0ugbkBZY"} />
+              </p>
             </div>
             <div className="">
               <div
@@ -163,7 +260,9 @@ function App() {
               >
                 Hindi
               </div>
-              <p className="video__link">video</p>
+              <p className="video__link">
+                <Home videolink={"https://www.youtube.com/embed/iLR1lVC11vk"} />
+              </p>
             </div>
             <div className="">
               <div
@@ -173,14 +272,31 @@ function App() {
               >
                 Punjabi
               </div>
-              <p className="video__link">video</p>
+              <p className="video__link">
+                <Home videolink={"https://www.youtube.com/embed/Y1MOfnd-hC8"} />
+              </p>
             </div>
           </div>
           <div className="content__container">
-            <div className="content__content">{data[level].content}</div>
+            <div className="content__content">
+              {language === 0
+                ? data[level].content
+                : language === 1
+                ? data[level].contenth
+                : language === 2
+                ? data[level].contentp
+                : ""}
+            </div>
           </div>
           <div className="question__container">
-            Question: {data[level].question}
+            Question:{" "}
+            {language === 0
+              ? data[level].question
+              : language === 1
+              ? data[level].questionh
+              : language === 2
+              ? data[level].questionp
+              : ""}
           </div>
           <div className="game-container">
             <div
@@ -218,21 +334,30 @@ function App() {
           </div>
         </div>
       )}
-      {level===data.length-1 && <div className="start__main">
-        <div className="start__logo">
-          <img src={bunny} alt="" />
-          BucksBunny
+      {level === data.length - 1 && (
+        <div className="start__main">
+          <div className="start__logo">
+            <img src={bunny} alt="" />
+            BucksBunny
+          </div>
+          <div className="start__text">
+            Thank you for completing this course. Hope you learned something
+            valuable.
+          </div>
+          <div className="start__button">
+            <div className="button__container" onClick={() => setLevel(1)}>
+              <MdOutlineRestartAlt className="start__icon" />
+            </div>
+          </div>
+          <div className="social__button">
+            <AiFillFacebook className="start__icon" />
+            <AiFillInstagram className="start__icon" />
+            <AiFillYoutube className="start__icon" />
+          </div>
         </div>
-        <div className="start__text">
-          Thank you for completing this course. Hope you learnt something valuable
-        </div>
-        <div className="start__button">
-          <div className="button__container" onClick={()=>setLevel(1)}>
-          <MdOutlineRestartAlt className="start__icon" /></div>
-        </div>
-      </div>}
+      )}
     </>
   );
 }
 
-export default App;
+export default Main;

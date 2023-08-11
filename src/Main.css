@@ -2,8 +2,28 @@
   text-align: center;
 }
 
-body{
+.signout__button{
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 1rem;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  color: white;
+  border: 1px white solid;
+  cursor: pointer;
+}
+
+.signout__button:hover{
+  color:#313131;
+  background-color: white;
+  
+}
+
+body {
   background-color: #313131;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .game-container {
@@ -17,7 +37,7 @@ body{
   width: 50px;
   height: 50px;
   background-image: url("./bugsBunny.png");
-  background-size: contain  
+  background-size: contain;
 }
 
 .block {
@@ -30,6 +50,7 @@ body{
   background-color: #afa9a900;
   border: white 1px solid;
   border-radius: 25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .hit__correct {
@@ -37,136 +58,143 @@ body{
   color: #6FE579;
 }
 
-.hit__wrong{
+.hit__wrong {
   border-color: #FF5A5F;
-  color: #FF5A5F  ;
+  color: #FF5A5F;
 }
-.main__container{
+
+.main__container {
   color: white;
 }
 
-.question__container{
-  font-size: x-large;
+.question__container {
+  font-size:large;
   color: white;
   display: flex;
   justify-content: center;
 }
 
-.content__container{
+.content__container {
   color: white;
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
-.content__content{
+
+.content__content {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 25vh;
+  height: 20vh;
   width: 50%;
-  font-size: large; 
+  font-size: large;
   border: 1px solid #4D4D4D;
   padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0); 
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0);
   border-radius: 10px;
 }
- 
-/* Handle */
+
 ::-webkit-scrollbar-thumb {
-  background: rgb(190, 190, 190); 
+  background: rgb(190, 190, 190);
   border-radius: 10px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555555; 
+  background: #555555;
 }
 
-.language-active{
+.language-active {
   border: white 1px solid;
   border-radius: 1rem;
-  padding: 0.5rem 1rem ;
+  padding: 0.5rem 1rem;
   color: #313131;
   background-color: white;
   cursor: pointer;
-  margin:0 1rem;
+  margin: 0 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.language{
+
+.language {
   border: white 1px solid;
   border-radius: 1rem;
-  padding: 0.5rem 1rem ;
+  padding: 0.5rem 1rem;
   color: white;
   cursor: pointer;
   margin: 0 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.language:hover{
+.language:hover {
   color: #313131;
   background-color: white;
 }
 
-.language__container{
+.language__container {
   display: flex;
   justify-content: center;
-  margin-bottom: 0 1rem;
+  margin-bottom: 1rem;
 }
 
-.video__link{
+.video__link {
   color: white;
   text-decoration: underline;
   cursor: pointer;
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
-.video__link:hover{
+.video__link:hover {
   font-weight: bold;
 }
 
-.main__logo{
-  margin-bottom: 1rem;
+.main__logo {
+  margin-bottom: 0.5rem;
   color: white;
-  font-size: xxx-large;
+  font-size: xx-large;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.course__container{
+.course__container {
   display: flex;
   justify-content: center;
 }
 
-.logo{
-  height: 75px;
+.logo {
+  height: 50px;
 }
 
-.start__main{
-  /* border: white 1px solid; */
-
+.start__main {
   margin: 0;
+  background-color: #313131;
 }
 
-.start__logo{
+.start__logo {
   margin-top: 2rem;
   font-size: 6rem;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.start__text{
+.start__text {
   color: white;
   font-size: xx-large;
   display: flex;
-  justify-content: center ;
+  justify-content: center;
   margin-top: 1rem;
 }
 
-.start__button{
+.start__button {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
@@ -175,15 +203,33 @@ body{
   transition: transform 0.3s ease-in-out;
 }
 
-.button__container{
+.social__button {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5rem;
   transition: transform 0.3s ease-in-out;
 }
 
-.button__container:hover{
+.button__container {
+  transition: transform 0.3s ease-in-out;
+}
+
+.button__container:hover {
   transform: scale(1.2);
   cursor: pointer;
 }
 
-.start__icon{
+.start__icon {
   color: white;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.social-media-buttons{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 1rem;
 }

@@ -1,0 +1,127 @@
+/* .back{
+    color: #fff;
+    background: #313131;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+.heading{
+   margin-top: 10vh;
+   color: #FFF;
+    text-align: center;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.cred{
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.login{
+    
+} */
+/* Login.css */
+.link__login{
+  margin: 1rem;
+}
+
+.back {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #313131;
+    color: #fff;
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+  
+  .heading {
+    font-family: 'Hachi Maru Pop', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    animation: bounce 1.5s infinite;
+  }
+  
+  .cred {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+  }
+  
+  .login,
+  .signup {
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    transition: color 0.2s;
+    border-width: 5px;
+  }
+  
+  .login:hover,
+  .signup:hover {
+    color: rgb(30, 219, 68);
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .email,
+  .pass {
+    margin-bottom: 1rem;
+  }
+  
+  input[type='email'],
+  input[type='password'] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    color: #313131;
+    font-size: 1rem;
+  }
+  
+  .butt {
+    padding: 0.5rem 1rem;
+    background-color: #ffcc00;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .butt:hover {
+    background-color: rgb(30, 219, 68);
+  }
+  
