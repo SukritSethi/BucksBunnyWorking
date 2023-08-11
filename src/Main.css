@@ -1,5 +1,11 @@
+*{font-family: 'Hachi Maru Pop', cursive;
+  /* font-family: 'Italianno', cursive; */
+}
+
 .App {
   text-align: center;
+  font-family: 'Hachi Maru Pop', cursive;
+  
 }
 
 .signout__button{

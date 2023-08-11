@@ -31,8 +31,8 @@ function Login() {
       <form className="form" onSubmit={handleSignIn}>
         <div className="email">
           <input
-            placeholder="Enter your email..."
-            type="email"
+            placeholder="Enter your username..."
+            type="text"
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
             required
